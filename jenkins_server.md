@@ -36,7 +36,6 @@ service jenkins start
 
 AWS 
 ----     
-
 jenkins security --> open security grup
 
 open Jenkins
