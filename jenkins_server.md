@@ -78,6 +78,16 @@ ll
 
 INTEGRATE MAVEN WITH JENKINS
 ----------------------------
+before entering vim
+------------------
+find / -name jvm
+/usr/lib/jvm (copy)
+cd /usr/lib/jvm
+ll (find java jdk 11 paling atas)
+find / -name java-11*
+(copy usr lib paling atas)
+next
+----
 sudo su - 
 cd /opt
 wget https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
@@ -91,9 +101,47 @@ ll
 cd bin
 ll
 ./mvn -v
+cd ~
+pwd
+ll -a (find .bash_profile)
+vi .bash_profile
 
+(entering vim)
+--------------
+dibawah fi tambahkan
+M2_HOME=/opt/maven
+m2=/opt/maven/bin
+JAVA_HOME=(paste disini)
 
+path bin tambahkan
+:&JAVA_HOME:$M2_HOME:$M2
 
+(exit vim)
+--------
+
+echo $PATH
+source .bash_profile
+echo $PATH
+(copy dari usr/lib sampe _64)
+mvn -v
+
+Go to Jenkins
+-------------
+manage jenkins --> manage plugins
+Available
+"Maven integration"
+install without restart
+--> back to dashboard
+global tool config
+JDK MENU = add JDK (turn off install auto)
+  name      : java-11
+  java_home : (paste disini)
+
+MAVEN MENU = add maven (turn off install auto)
+  name        : maven-(version)
+  maven_home  : /opt/maven
+
+APPLY SAVE
 
 
 
