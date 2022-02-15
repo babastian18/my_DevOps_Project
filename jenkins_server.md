@@ -22,3 +22,37 @@ public ipv4 address copy
 SSH --> Advanced --> use private key
 Specify uname = ec2-user
 
+sudo su -
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+yum install epel-release
+amazon-linux-extras install epel
+y
+amazon-linux-extras install java-openjdk11
+yum install jenkins
+y
+
+service jenkins start
+
+| AWS |
+|     |
+
+jenkins security --> open security grup
+
+open Jenkins
+------------
+
+public ipv4 address + /8080
+
+copy link to jenkins server
+copy password
+select plugins install
+
+
+
+
+
+
+
+
+
