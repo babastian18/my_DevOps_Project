@@ -14,9 +14,8 @@ RSA
 DevOps_Project_key
 Download key pair
 
-|-------------|
 | L A U N C H |
-|-------------|
+
 
 public ipv4 address copy
 --MobaXterm--
