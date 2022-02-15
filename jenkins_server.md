@@ -142,6 +142,34 @@ MAVEN MENU = add maven (turn off install auto)
   maven_home  : /opt/maven
 
 APPLY SAVE
+new item (named : FirstMavenProject (select maven project)
+Desc  : first maven project
+SCM   : Git (repo url = https://github.com/babastian18/hello-world.git )
+Goals and option  : clean install
+
+apply, save, build
+
+Go TO Jenkins_Server
+--------------------
+sudo su - 
+cd /var/lib/jenkins/
+ll
+cd workspace/
+ll
+cd FirstMavenProject
+ll
+cd webapp/
+ll
+cd target/
+
+Go TO Jenkins
+-------------
+workspace --> webapp --> target --> webapp.war
+Dashboard
+
+
+
+
 
 
 
