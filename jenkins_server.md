@@ -34,21 +34,35 @@ y
 
 service jenkins start
 
-| AWS |
-|     |
+AWS 
+----     
 
 jenkins security --> open security grup
 
 open Jenkins
 ------------
-
 public ipv4 address + /8080
 
 copy link to jenkins server
 copy password
-select plugins install
+select plugins to install
 
+jenkins server
+--------------
+cat/etc/hostname --> jenkins-server
+hostname jenkns-server
 
+yum install git
+git --version
+
+open jenkins
+------------
+manage jenkins --> manage plugins
+github install without restart
+
+manage jenkins --> global tool configuration
+name (Git) , path (git)
+apply --> save
 
 
 
