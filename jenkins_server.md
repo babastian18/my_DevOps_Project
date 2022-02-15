@@ -63,6 +63,35 @@ manage jenkins --> global tool configuration
 name (Git) , path (git)
 apply --> save
 
+new item (PullCodeFromGithub), freestyle project
+desc      : Pull code from github
+SCM       : git
+repo url  : https://github.com/babastian18/hello-world.git
+apply, save
+build now
+console output. Building in workspace (copy to jenkins server)
+
+jenkins_server
+--------------
+cd (Building in workspace)
+ll
+
+INTEGRATE MAVEN WITH JENKINS
+----------------------------
+sudo su - 
+cd /opt
+wget https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
+ll, find apache-maven-(copy, paste after -xvzf below)
+tar -xvzf ..
+ll, find apache maven without bin.tar.gz then copy and paste below after mv command
+mv ..
+ll (find maven)
+cd maven
+ll
+cd bin
+ll
+./mvn -v
+
 
 
 
