@@ -1,6 +1,6 @@
 # my_DevOps_Project
 
-SECTION 1 :
+Section 1 :
 CI/CD pipeline using Git, Jenkins, and Maven
 
 Section 2 :
