@@ -100,3 +100,20 @@ git push origin master
 ### Back to jenkins
 - BuildAndDeployJob --> build now
 - restart tomcat web server
+
+- BuildAndDeployJob --> configure 
+- Build Triggers option, checklist `Poll scm`
+- Schedule `*****`
+
+### open gitbash cmd
+- `vi index.jsp` tambahin code `<br>` dibawah input yg kedua
+```
+git status
+git add .
+git commit -m "password tambahin new link"
+git push origin master
+```
+
+### open jenkins
+- liat di build status automate nya
+- coba ubah index.jsp mandiri lagi kalo mau coba automate selanjutnya
