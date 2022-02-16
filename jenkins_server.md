@@ -49,7 +49,7 @@ select plugins to install
 jenkins server
 --------------
 cat/etc/hostname --> jenkins-server
-hostname jenkns-server
+hostname jenkins-server
 
 yum install git
 git --version
