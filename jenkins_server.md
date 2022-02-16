@@ -1,13 +1,16 @@
 ### Create Instances On AWS
 - AMI      = Amazon Linux 2
 - t2.micro
-ADD tags : **
+
+-     ADD tags : 
 -  key (Name), value (Jenkins_Server)
-new security grup : **
+
+-     new security grup : 
 - name     = Jenkins_Security_Group
 - Desc     = Jenkins_Security_Group
 - ADD Rule = Custom TCP 8080
-Create a new key pair : **
+
+-     Create a new key pair : 
 - RSA
 - DevOps_Project_key
 - Download key pair
@@ -16,9 +19,9 @@ Create a new key pair : **
 |-------------|
 public ipv4 address copy
 
-###--MobaXterm--
-SSH --> Advanced --> use private key **
-Specify uname = ec2-user **
+### MobaXterm
+- SSH --> Advanced --> use private key 
+- Specify uname = ec2-user 
 
 ```sh
 sudo su -
@@ -36,68 +39,65 @@ y
 ```
 service jenkins start
 ```
-AWS 
-----     
-jenkins security --> open security grup
+### AWS      
+- jenkins security --> open security grup
 
-open Jenkins
-------------
-public ipv4 address + /8080
+### Open Jenkins
+- public ipv4 address + /8080
+- copy link to jenkins server
+- copy password
+- select plugins to install
 
-copy link to jenkins server
-copy password
-select plugins to install
-
-jenkins server
---------------
-cat/etc/hostname --> jenkins-server
-hostname jenkins-server
-
+### Open Jenkins server
+``` cat/etc/hostname ``` --> ```jenkins-server```
+- ``` hostname jenkins-server ```
+```
 yum install git
-git --version
+git --version 
+```
 
-open jenkins
-------------
-manage jenkins --> manage plugins
-github install without restart
+### Open jenkins
+- manage jenkins --> manage plugins
+- github install without restart
+- manage jenkins --> global tool configuration
+- name (Git) , path (git)
+- apply --> save
+- new item , freestyle project
+- desc/name       : `Pull code from github`
+- SCM             : git
+- repo url        : `https://github.com/babastian18/hello-world.git`
+- apply, save
+- build now
+- console output. Building in workspace (copy to jenkins server)
 
-manage jenkins --> global tool configuration
-name (Git) , path (git)
-apply --> save
+### Open Jenkins_server
+- `cd` (Building in workspace)
+- `ll`
 
-new item (PullCodeFromGithub), freestyle project
-desc      : Pull code from github
-SCM       : git
-repo url  : https://github.com/babastian18/hello-world.git
-apply, save
-build now
-console output. Building in workspace (copy to jenkins server)
-
-jenkins_server
---------------
-cd (Building in workspace)
-ll
-
-INTEGRATE MAVEN WITH JENKINS
-----------------------------
-before entering vim
-------------------
+## INTEGRATE MAVEN WITH JENKINS
+### before entering vim
+```
 find / -name jvm
-/usr/lib/jvm (copy)
-cd /usr/lib/jvm
-ll (find java jdk 11 paling atas)
-find / -name java-11*
-(copy usr lib paling atas)
-next
-----
+```
+- /usr/lib/jvm (copy)
+- `cd /usr/lib/jvm`
+- ll (find java jdk 11 paling atas)
+- find / -name java-11*
+- (copy usr lib paling atas)
+
+### next
+```
 sudo su - 
 cd /opt
 wget https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
-ll, find apache-maven-(copy, paste after -xvzf below)
-tar -xvzf ..
-ll, find apache maven without bin.tar.gz then copy and paste below after mv command
-mv ..
-ll (find maven)
+ll
+```
+- find apache-maven-(copy, paste after -xvzf below)
+- `tar -xvzf` ..
+- ll, find apache maven without bin.tar.gz then copy and paste below after mv command
+- mv ..
+- ll (find maven)
+```
 cd maven
 ll
 cd bin
@@ -105,54 +105,59 @@ ll
 ./mvn -v
 cd ~
 pwd
-ll -a (find .bash_profile)
+ll -a
+```
+```
 vi .bash_profile
+```
 
-(entering vim)
---------------
+### (entering vim)
+
 dibawah fi tambahkan
+```
 M2_HOME=/opt/maven
 m2=/opt/maven/bin
-JAVA_HOME=(paste disini)
+JAVA_HOME=(paste disini /usr/lib)
+```
 
 path bin tambahkan
+```
 :&JAVA_HOME:$M2_HOME:$M2
+```
 
-(exit vim)
---------
-
+### (exit vim)
+```
 echo $PATH
 source .bash_profile
 echo $PATH
-(copy dari usr/lib sampe _64)
-mvn -v
+```
+- (copy dari usr/lib sampe _64)
+- mvn -v
 
-Go to Jenkins
--------------
-manage jenkins --> manage plugins
-Available
-"Maven integration"
-install without restart
---> back to dashboard
-global tool config
-JDK MENU = add JDK (turn off install auto)
-  name      : java-11
-  java_home : (paste disini)
+### Go to Jenkins
+- manage jenkins --> manage plugins
+- Available
+- "Maven integration"
+- install without restart
+- --> back to dashboard
+- global tool config
+- JDK MENU = add JDK (turn off install auto)
+- `name      : java-11`
+- `java_home : (paste disini)`
 
-MAVEN MENU = add maven (turn off install auto)
-  name        : maven-(version)
-  maven_home  : /opt/maven
+- MAVEN MENU = add maven (turn off install auto)
+- `name        : maven-(version)`
+- `maven_home  : /opt/maven`
+- APPLY SAVE
 
-APPLY SAVE
-new item (named : FirstMavenProject (select maven project)
-Desc  : first maven project
-SCM   : Git (repo url = https://github.com/babastian18/hello-world.git )
-Goals and option  : clean install
+- new item (named : `FirstMavenProject` (select maven project)
+- Desc  : `first maven project`
+- SCM   : Git (repo url = `https://github.com/babastian18/hello-world.git` )
+- Goals and option  : `clean install`
+- apply, save, build
 
-apply, save, build
-
-Go TO Jenkins_Server
---------------------
+### Go TO Jenkins_Server
+```
 sudo su - 
 cd /var/lib/jenkins/
 ll
@@ -163,11 +168,10 @@ ll
 cd webapp/
 ll
 cd target/
+```
 
-Go TO Jenkins
--------------
-workspace --> webapp --> target --> webapp.war
-Dashboard
+### Go TO Jenkins
+- workspace --> webapp --> target --> webapp.war --> Dashboard
 
 
 
