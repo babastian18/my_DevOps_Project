@@ -29,7 +29,7 @@ docker ps -a
 ### Open docker web server
 1. copy public ipv4 docker server + new container port `:8083`
 2. try
-3. stop it `docker stop <container names> mytomcat-server`
+3. stop it `docker stop mytomcat-server / <container names>`
 
 ### Open docker server
 1. `sudo su -` make sure root users root users
@@ -46,5 +46,20 @@ vi Dockerfile
 FROM tomcat:latest
 RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps 
 ```
+```
+docker build -t demotomcat .
+docker images
+docker ps -a
+```
+```
+docker run -d --name demotomcat-container -p 8085:8080 demotomcat
+docker ps -a
+```
+
+### Open docker web server
+1. copy public ipv4 docker server + new container port `:8085`
+2. try
+
+
 
 
