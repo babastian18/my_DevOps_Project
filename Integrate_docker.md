@@ -50,8 +50,107 @@ service sshd reload
 16. TEST CONFIGURATION
 17. if `success` apply & save
  
+- Dashboard --> new item `BuildAndDeployOnContainer`
+- copy from `BuildAndDeployJob`
+- delete `Post-build Actions` before
+- change to `send build artifacts over SSH`
+- name `dockerhost`
+- source files `webapps/target/*.war`
+- remove prefix `webapp/target`
+- remote directory `<empty>`
+- Apply & Save
 
+### open docker server
+```
+sudo su - dockeradmin
+ll
+```
+- copy artifact webapp.war from `dockeradmin` to `docker container`
+```
+exit
+```
+```
+cd /opt
+ll
+mkdir docker
+ll
+```
+```
+chown -R dockeradmin:dockeradmin docker
+ll
+```
+```
+ls -ld
+cd ..
+cd /root
+ll
+mv Dockerfile /opt/docker/
+cd /opt/docker/
+ll -l
+```
+```
+chown -R dockeradmin:dockeradmin /opt/docker
+ll
+```
+### Open jenkins job
+- `builanddeployandcontainer` --> configure
+- scroll down to `Remote directory`
+- `//opt//docker`
+- apply & save
+- `Build Now`
 
+### back to docker server
+```
+ls
+ll
+date
+```
+```
+vi Dockerfile
+```
+#### entering vim
+- add command after `run cp -r` with code below
+```
+COPY ./*.war /usr/local/tomcat/webapps
+```
+### exit vim
+```
+docker build -t tomcat:v1 .
+```
+```
+docker images
+docker run -d --name tomcatv1 -p 8086:8080 tomcat:v1
+```
 
+### Open docker web server 
+- with public ipv4 docker server + `:8086` port from latest container + `/webapp/`
 
+### Open jenkins
+- configure the `BuildAndDeployOnContainer` job
+- scroll to `Exec command` and add the code below
+```
+cd/opt/docker;
+docker build -t regapp:v1 .;
+docker run -d --name registerapp -p 8087:8080 regapp:v1
+```
+- apply & save
 
+### Open docker server
+- make sure as `root@dockerhost docker`
+```
+docker images
+docker ps -a
+docker stop <container ID tomcatv1 +demotomcat +tomcat:latest>
+docker ps -a
+```
+- delete all stopped container
+``` 
+docker container prune
+```
+`docker ps -a`
+- should be empty
+`docker image prune -a`
+`docker images`
+- should be empty
+- `docker ps -a`
+- should be empy too
