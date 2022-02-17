@@ -131,6 +131,8 @@ docker run -d --name tomcatv1 -p 8086:8080 tomcat:v1
 ```
 cd/opt/docker;
 docker build -t regapp:v1 .;
+docker stop registerapp
+docker rm registerapp
 docker run -d --name registerapp -p 8087:8080 regapp:v1
 ```
 - apply & save
@@ -153,4 +155,34 @@ docker container prune
 - `docker images`
 - should be empty
 - `docker ps -a`
-- should be empy too
+- should be empty too
+
+### Back to Docker server
+```
+ll
+docker images
+docker ps -a
+```
+```
+docker build -t regapp:v1 .;
+```
+### Back to Jenkins
+- build now the recent jobs with all the config
+
+### Back to Docker server
+```
+docker images
+docker ps -a
+```
+
+### Open the webapps from Docker server
+- copy public ipv4 address + `:8087/webapp/`
+
+## Test the automated build on Docker Container
+- open git bash and go to `cd hello-world` local first
+1. `vi index.jsp`
+2. change anything what you want from the source code
+3. `git commit -am "updated index.jsp" `
+4. see from jenkins build status
+5. `docker images`,`docker ps -a`
+6. if `success`, open the docker web server with public ipv4 + port `:8087/webapp/`
