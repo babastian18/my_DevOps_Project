@@ -149,8 +149,8 @@ docker container prune
 ```
 `docker ps -a`
 - should be empty
-`docker image prune -a`
-`docker images`
+- `docker image prune -a`
+- `docker images`
 - should be empty
 - `docker ps -a`
 - should be empy too
