@@ -1,6 +1,6 @@
 ## Task in this session
-1. inegrate ansible with jenkins
-2.
+1. integrate ansible with jenkins
+2. build an image and create container on ansible
 
 ### Login to jenkins web
 1. `manage jenkins` --> `configure system`
@@ -46,3 +46,50 @@ ll
 ### Back to jenkins web
 18. apply and save
 19. `Build Now`
+
+### back to ansadmin ansible server
+```
+clear
+sudo yum install docker -y
+cat /etc/group
+```
+```
+sudo usermod -aG docker ansadmin
+id ansadmin
+```
+```
+service docker status
+sudo service docker start
+service docker status
+```
+```
+clear
+ll
+```
+
+### Back to ansadmin dockerhost server
+```
+sudo su -
+ll
+cd /opt/docker/
+ll
+cat Dockerfile
+```
+- copy the scripts
+
+### back to ansadmin ansible server
+```
+vi Dockerfile
+```
+- paste the scripts
+``` 
+sudo chmod 777 /var/run/docker.sock
+docker build -t regapp:v1 .
+```
+``` 
+docker images
+docker run -t --name regapp-server -p 8081:8080 regapp:v1
+```
+### go to aws server
+1. copy ansible server public ipv4 address 
+2. new tab and open the ip + `:8081/webapp/`
