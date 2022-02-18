@@ -1,3 +1,7 @@
+## Task in this session
+1. setup ansible server
+2. integrate docker with ansible
+ 
 ### Create Ansible Server Instance
 - Amazon Linux 2 AMI
 - t2.micro
@@ -61,4 +65,79 @@ yum install ansible
 python --version
 ansible --version
 ```
-#### 
+#### Open new Docker ssh session 
+- change the background terminal to make it better 
+- after connected
+```
+sudo su -
+useradd ansadmin
+passwd ansadmin
+```
+- example, `123`
+```
+visudo
+```
+#### Entering vim
+- scroll and find `## Same thing without a password`
+- dibawahnya `# %wheel` tambahkan
+```
+ansadmin ALL=(ALL)    NOPASSWD: ALL
+```
+- exit
+### Exit vimm
+```
+grep Password /etc/ssh/sshd_config
+```
+
+### Back to Ansible root server, not `ansadmin server`
+```
+vi /etc/ansible/hosts
+```
+- delete all the information
+
+### Back to Docker server
+```
+ifconfig
+```
+- copy the private ip address
+- `inet` yang atas, copy the number
+
+### Back to ansible tab session
+- paste the ip insde the last vim
+- save
+### exit vim
+```
+sudo su - ansadmin
+```
+```
+ll
+ll  -la
+cd .ssh
+ll
+```
+```
+cd ..
+ssh-copy-id <inet atas docker host>
+```
+### Back to docker server session
+```
+sudo su - ansadmin
+ll  
+ll -la
+cd .ssh
+ll
+cat authorized_key
+```
+### back to ansible session
+```
+cat .ssh/id_rsa_pub
+```
+- copy all the key and paste to notepad
+```
+cd ..
+ansible all -m ping
+```
+```
+ansible all -m command -a uptime
+```
+
