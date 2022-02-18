@@ -1,6 +1,7 @@
 ## Task in this session
 1. integrate ansible with jenkins
 2. build an image and create container on ansible
+3. using ansible to create containers
 
 ### Login to jenkins web
 1. `manage jenkins` --> `configure system`
@@ -93,3 +94,91 @@ docker run -t --name regapp-server -p 8081:8080 regapp:v1
 ### go to aws server
 1. copy ansible server public ipv4 address 
 2. new tab and open the ip + `:8081/webapp/`
+
+### back to ansadmin ansible server
+```
+cd /opt
+ll
+cd docker
+ll
+```
+```
+ifconfig
+```
+- copy the ipaddress `inet` yang ke 2 (eth0)
+```
+sudo vi /etc/ansible/hosts
+```
+- add new ip address under the befored ip addr
+```
+[dockerhost]
+<ip befored>
+
+[ansible]
+<ip>
+```
+```
+cat /etc/ansible/hosts
+```
+```
+ansible all -a uptime
+```
+```
+ifconfig
+```
+- copy the `inet` (eth0)
+```
+ssh-copy-id <paste>
+```
+```
+ssh-copy-id localhost
+```
+```
+ansible all -a uptime
+```
+> should be connected now
+```
+pwd
+vi regapp.yml
+```
+#### enterin vim
+```
+---
+- hosts: ansible
+
+  tasks:
+  - name: create docker image
+    command: docker build -t regapp:latest .
+    args: 
+     chdir: /opt/docker
+```
+- save it
+#### exit vim
+```
+ansible-playbook regapp.yml --check
+```
+``` 
+docker images
+ansible-playbook regapp.yml
+```
+```
+docker images
+```
+- should be created new one with `latest` version
+```
+docker login
+```
+#### login to dockerhub account
+1. dockerID `21052002`, password `<usually>` 
+
+```
+docker images
+docker tag <image id regapp latest> 21052002/regapp:latest
+docker images
+```
+- push to dockerhub
+```
+docker push <21052002>/regapp:latest
+```
+- refresh the dockerhub web login account
+- and see the new images that we have been pushed
