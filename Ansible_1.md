@@ -15,8 +15,8 @@
 sudo su -
 vi /etc/hostname
 ```
-`ansible-server`
-`init 6`
+- `ansible-server`
+- `init 6`
 ```
 sudo su -
 useradd ansadmin
@@ -41,3 +41,24 @@ vi /etc/ssh/sshd_config
 - hapus `#` yang ada di `#PasswordAuthentication yes` (1)
 - tambahkan `#` yang ada di `PasswordAuthentication no` (3)
 #### Exit vim
+```
+service sshd reload
+```
+- open new ssh tab with ipv4 address ansible server but without add private key or just connect in already
+- login as `ansadmin` , password `123`
+#### ansadmin user
+```
+ssh-keygen
+```
+- just enter it
+```
+sudo su - 
+yum install ansible
+```
+- see to `To user, run` part
+- copy the command without `sudo` , just `amazon-linux-extras ... `
+```
+python --version
+ansible --version
+```
+#### 
