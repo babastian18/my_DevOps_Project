@@ -339,3 +339,41 @@ ansible-playbook deploy_regapp.yml
 docker images
 docker ps -a
 ```
+
+
+### Login to jenkins dashboard
+- configure the `Copy_Artifacts_onto_Ansible` job
+- scroll down to `exec command`
+```
+ansible-playbook /opt/docker/regapp.yml
+sleep 10;
+ansible-playbook /opt/docker/deploy_regapp.yml
+```
+- apply & save
+
+### Try changing the source code from git bash
+```
+ll
+vi index.jsp
+```
+- change anything from source code that what u want
+```
+git commit -am "updated 4"
+git status
+git push origin master
+```
+### refresh
+- refresh dockerhub pages
+
+### open ansadmin ansible server
+```
+docker ps -a
+docker images
+```
+
+### check the jenkins job build history
+- if  `succeeded`
+- open `docker server ipv4 addr` +  `:8082/webapp/`
+- `docker ps -a`
+- dockerhub refresh
+- then turnoff `poll scm` from `BuildAndDeployOnContainer` job
