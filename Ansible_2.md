@@ -4,6 +4,7 @@
 3. using ansible to create containers
 4. jenkins job to build an image onto ansible
 5. create container on dockerhost using ansible playbook
+6. jenkins CI/CD to deploy on container using ansible
 
 ### Login to jenkins web
 1. `manage jenkins` --> `configure system`
@@ -247,3 +248,94 @@ git push origin master
 ### open jenkins web and docker hub 
 - see the automate
 - refresh the dockerhub pages
+
+### go back to ansadmin ansible server
+``` 
+vi deploy_regapp.yml
+```
+#### entering vim
+```
+---
+- hosts: dockerhost
+  tasks:
+  - name: create container
+    command: docker run -d --name regapp-server -p 8082:8080 21052002/regapp:latest
+```
+#### exit vim
+```
+ansible-playbook deploy_regapp.yml --check
+```
+> should be `skipping`
+
+### Login to docker host server
+- specify uname `ec2-user`
+```
+sudo su -
+docker images
+service docker start
+service docker status
+docker images
+docker ps -a
+```
+- remove the `exited` status container called `regapp:v1`
+```
+docker rm -f <container id>
+```
+```
+docker image prune
+docker rmi regapp:v1 tomcat
+chmod 777 /var/run/docker.sock
+```
+
+### back to ansadmin ansible server
+```
+ansible-playbook deploy_regapp.yml
+```
+
+### back to docker host server
+- check the latest container has been created from ansible
+```
+docker images
+docker ps -a
+```
+### open the web docker host
+- ipv4 addr + `:8082/webapp/`
+> should be changed
+
+### open ansadmin ansible server
+```
+cat deploy_regapp.yml
+vi deploy_regapp.yml
+```
+```
+---
+- hosts: dockerhost
+  tasks:
+  - name: stop existing container
+    command: docker stop regapp-server
+    ignore_errors: yes
+    
+  - name: remove the container
+    command: docker rm regapp-server
+    ignore_errors: yes
+    
+  - name: remove image
+    command: docker rmi 21052002/regapp:latest
+    ignore_errors: yes
+    
+  - name: create container
+    command: docker run -d --name regapp-server -p 8082:8080 21052002/regapp:latest
+```
+```
+ansible-playbook deploy_regapp.yml --check
+```
+> if sucess
+```
+ansible-playbook deploy_regapp.yml
+```
+    
+### Check to dockerhost server
+```
+docker images
+docker ps -a
+```
