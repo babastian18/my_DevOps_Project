@@ -2,6 +2,8 @@
 1. integrate ansible with jenkins
 2. build an image and create container on ansible
 3. using ansible to create containers
+4. jenkins job to build an image onto ansible
+5. create container on dockerhost using ansible playbook
 
 ### Login to jenkins web
 1. `manage jenkins` --> `configure system`
@@ -182,3 +184,66 @@ docker push <21052002>/regapp:latest
 ```
 - refresh the dockerhub web login account
 - and see the new images that we have been pushed
+```
+vi regapp.yml
+```
+#### entering vim
+```
+- hosts: ansible
+
+  tasks:
+  - name: create docker image
+    command: docker build -t regapp:latest .
+    args: 
+     chdir: /opt/docker
+     
+  - name: create tag to push image onto dockerhub
+    command: docker tag regapp:latest 21052002/regapp:latest
+    
+  - name: push docker image
+    command: docker push 21052002/regapp:latest
+```
+#### exit vim
+```
+ansible-playbook regapp.yml --check
+```
+> should be `skipping` all
+```
+cat regapp.yml
+cat /etc/ansible/hosts
+```
+> should be 2 user ip `dockerhost`,and `ansible`. and copy the `ansible` ipv4 addr
+```
+ansible-playbook regapp.yml --limit localhost <paste here>
+```
+```
+docker images
+```
+- check and refresh the dockerhub web
+
+### Go to jenkins web
+- go to `configure` inside the `Copy_Artifacts_onto_Ansible` job
+- scroll down to `exec command`
+```
+ansible-playbook /opt/docker/regapp.yml
+```
+- enable `Poll Scm` too with schedule `*****` or every minutes
+- apply & save
+
+### Open gitbash
+- make sure ur inside the `hello-world` directory projects
+```
+cd webapp/src/main/webapp/
+ll
+vi index.jsp
+```
+- change anything u want from the code
+```
+git add .
+git commit -m "updated 3"
+git status
+git push origin master
+```
+### open jenkins web and docker hub 
+- see the automate
+- refresh the dockerhub pages
